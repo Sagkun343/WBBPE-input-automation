@@ -1,79 +1,162 @@
-from pyautogui import moveTo, click, typewrite
-from time import sleep, time
+# import tkinter as tk
+# import ttkbootstrap as ttk
+# import wbbpe_functions as gf
+#
+# # Global Variables
+# student = 0
+# num_array = []
+#
+# # Functions
+# def button_press():
+#     global num_array
+#     entry_csv = text_input.get("1.0", tk.END)
+#     num_array = gf.csv_to_list_of_integers(entry_csv)
+#     output_widget.config(text=str(gf.is_less_than_equals_value(numbers=num_array, threshold=20)))
+#
+# def student_button_press():
+#     global student
+#     try:
+#         user_input = int(student_number_entry.get())
+#     except ValueError:
+#         sn_output.config(text="Try again.")
+#     sn_output.config(text=str(user_input))
+#     student = user_input
+#
+# def final_button_press():
+#     gf.print_all(students=student, start_coord=(602, 285), end_coord=(1641, 905), sleep_time=10, num_arr=num_array)
+#
+# # Create the main window
+# window = ttk.Window(themename='darkly')
+# width, height = 1600, 900
+# window.title("WBBPE Web Helper")
+# window.geometry(f"{width}x{height}")
+#
+# # Introduction
+# Introduction = ttk.Label(master=window,
+#                          text="Steps to help yourself:\nStep 1. Open your preferred browser.\nStep 2. Have all the "
+#                               "marks in a csv format.", font="Calibri 12", justify="center")
+# Introduction.pack(pady=5)
+#
+# # Student Number Section
+# student_number = tk.IntVar()
+# student_number_frame = ttk.Frame(master=window)
+# student_number_label = ttk.Label(master=student_number_frame, text="Enter number of Students:-", justify="left")
+# student_number_entry = ttk.Entry(student_number_frame, width=30)
+# student_number_button = ttk.Button(master=student_number_frame, text="Enter", command=student_button_press)
+# sn_output = ttk.Label(master=student_number_frame)
+#
+# student_number_label.pack(side='left', padx=5)
+# student_number_entry.pack(side='left', padx=5)
+# student_number_button.pack(side='right', padx=5)
+# sn_output.pack(side='bottom')
+# student_number_frame.pack()
+#
+# # CSV Helper Section
+# csv_helper = ttk.Label(master=window,
+#                        text="Enter Your marks Here.", font="Calibri 12 italic", justify="center")
+# csv_helper.pack(pady=5)
+#
+# # Text Input Widget
+# text_input = tk.Text(master=window, height=10, width=100)
+# text_input.pack()
+#
+# # Button Section
+# button = ttk.Button(master=window, text="Press me!", command=button_press)
+# button.pack(pady=10)
+#
+# # Output Section
+# output_widget = tk.Label(window, height=10, width=100)
+# output_widget.pack(pady=10)
+#
+# # Final Button Section
+# final_button = ttk.Button(master=window, text="START", command=final_button_press, width=10)
+# final_button.pack(pady=15, padx=15)
+#
+# # Run
+# if __name__ == '__main__':
+#     window.mainloop()
 
-marks_array = [15, 13, 13, 17, 18,
-               13, 11, 11, 16, 15,
-               15, 14, 14, 18, 17,
-               7, 6, 6, 13, 10,
-               15, 13, 13, 18, 18,
-               10, 10, 10, 15, 16,
-               14, 12, 12, 15, 17,
-               10, 10, 10, 12, 14,
-               18, 16, 15, 17, 18,
-               12, 11, 11, 15, 14,
-               10, 10, 10, 15, 13,
-               15, 14, 14, 17, 15,
-               15, 14, 14, 18, 18,
-               13, 15, 15, 14, 15,
-               12, 10, 10, 12, 13,
-               18, 16, 16, 18, 17,
-               12, 10, 10, 15, 15,
-               19, 17, 17, 15, 15,
-               14, 12, 12, 17, 17,
-               8, 5, 5, 10, 10,
-               10, 7, 7, 10, 12,
-               15, 13, 13, 15, 15,
-               18, 16, 16, 13, 14,
-               18, 17, 17, 18, 17,
-               12, 10, 10, 12, 14,
-               15, 15, 15, 16, 15,
-               10, 10, 8, 12, 10,
-               15, 12, 12, 13, 14,
-               10, 9, 9, 12, 11,
-               12, 10, 10, 12, 13,
-               10, 12, 8, 14, 12,
-               8, 7, 7, 15, 10,
-               13, 13, 10, 14, 13,
-               14, 10, 10, 13, 15,
-               10, 8, 8, 12, 13,
-               9, 7, 7, 10, 12,
-               12, 10, 10, 14, 14,
-               17, 15, 15, 13, 15,
-               8, 7, 7, 10, 12,
-               12, 10, 12, 16, 15,
-               15, 15, 15, 16, 15,
-               13, 12, 12, 15, 17]
+
+import tkinter as tk
+from tkinter import Text
+from ttkbootstrap import Window, Label, Frame, Entry, Button
+
+import wbbpe_functions as gf
+
+# Global Variables
+student = 0
+num_array = []
 
 
-def print_all(students: int, start_coord: tuple[float, float], end_coord: tuple[float, float],
-              num_arr: list[int], subjects: int = 5, sleep_time: int = 5) -> None:
-    start_time = time() # takes a snapshot of the current time of the program.
-    sleep(sleep_time)
-    print(f"You have {sleep_time} seconds. switch to the browser!")
-    target_y = start_coord[1] # end position of Y - axis.
-    gap_x = (end_coord[0] - start_coord[0]) / (subjects - 1)   # calculates the gap between two cells.
-    gap_y = (end_coord[1] - start_coord[1]) / (students - 1)   # calculates the gap between two cells.
-    num_ptr = 0   # number_array pointer.
-    for k in range(students):
-        for i in range(subjects):
-            target_x = start_coord[0]  # makes sure the x-axis is reset.
-            moveTo(target_x, target_y, duration=0.0)    # moves mouse cursor to position.
-            click(button='left')   # simulates click so the text box is now actually working as intended.
-            typewrite(str(num_arr[num_ptr]))    # writes into the text box.
-            num_ptr += 1
-            target_x += gap_x
-        target_y += gap_y   # makes sure the Y-axis is incremented now that the nested loops over.
-    end_time = time()
-    print(f"All numbers printed successfully in {end_time - start_time} seconds.")
+# Functions
+def button_press():
+    global num_array
+    entry_csv = text_input.get("1.0", tk.END)
+    num_array = gf.csv_to_list_of_integers(entry_csv)
+    output_widget.config(text=str(gf.is_less_than_equals_value(numbers=num_array, threshold=20)))
 
 
-print_all(students=42, start_coord=(606, 162), end_coord=(1646, 982), num_arr=marks_array)
+def student_button_press():
+    global student
+    try:
+        user_input = int(student_number_entry.get())
+    except ValueError:
+        sn_output.config(text="Try again.")
+    sn_output.config(text=str(user_input))
+    student = user_input
 
 
+def final_button_press():
+    gf.print_all(students=student, start_coord=(602, 285), end_coord=(1641, 905), sleep_time=10, num_arr=num_array)
+
+
+# Create the main window
+window = Window(themename='darkly')
+width, height = 1600, 900
+window.title("WBBPE Web Helper")
+window.geometry(f"{width}x{height}")
+
+# Introduction
+Introduction = Label(master=window,
+                     text="Steps to help yourself:\nStep 1. Open your preferred browser.\nStep 2. Have all the "
+                          "marks in a csv format.", font="Calibri 12", justify="center")
+Introduction.pack(pady=5)
+
+# Student Number Section
+student_number = tk.IntVar()
+student_number_frame = Frame(master=window)
+student_number_label = Label(master=student_number_frame, text="Enter number of Students:-", justify="left")
+student_number_entry = Entry(student_number_frame, width=30)
+student_number_button = Button(master=student_number_frame, text="Enter", command=student_button_press)
+sn_output = Label(master=student_number_frame)
+
+student_number_label.pack(side='left', padx=5)
+student_number_entry.pack(side='left', padx=5)
+student_number_button.pack(side='right', padx=5)
+sn_output.pack(side='bottom')
+student_number_frame.pack()
+
+# CSV Helper Section
+csv_helper = Label(master=window,
+                   text="Enter Your marks Here.", font="Calibri 12 italic", justify="center")
+csv_helper.pack(pady=5)
+
+# Text Input Widget
+text_input = Text(master=window, height=10, width=100)
+text_input.pack()
+
+# Button Section
+button = Button(master=window, text="Press me!", command=button_press)
+button.pack(pady=10)
+
+# Output Section
+output_widget = tk.Label(window, height=10, width=100)
+output_widget.pack(pady=10)
+
+# Final Button Section
+final_button = Button(master=window, text="START", command=final_button_press, width=10)
+final_button.pack(pady=15, padx=15)
+
+# Run
 if __name__ == '__main__':
-    pass
-    # number_of_students: int = int(input("Enter first position(enter number only):"))
-    # cell_pos_start_x: int = int(input("Enter first position(enter number only):"))
-    # cell_pos_start_y: int = int(input("Enter first position(enter number only):"))
-    # cell_pos_end_x: int = int(input("Enter first position(enter number only):"))
-    # cell_pos_end_y: int = int(input("Enter first position(enter number only):"))
+    window.mainloop()
