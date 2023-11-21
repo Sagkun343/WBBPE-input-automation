@@ -1,4 +1,4 @@
-from pyautogui import moveTo, click, typewrite
+from pyautogui import moveTo, click, typewrite, position
 from time import sleep, time
 from typing import Tuple
 
@@ -66,5 +66,18 @@ def csv_to_list_of_integers(csv: str) -> list[int]:
     if temp:
         res.append(int(temp))
 
-    return res if len(res) > 0 else []
+    return res
+
+
+def get_mouse_location() -> Tuple:
+    sleep(5)
+    # Get the current mouse coordinates
+    mouse_x, mouse_y = position()
+
+    # Print the coordinates
+    # print(f"Mouse Coordinates: X={mouse_x}, Y={mouse_y}")
+
+    return mouse_x, mouse_y
+
+
 
