@@ -60,8 +60,6 @@ def csv_to_list_of_integers(csv: str) -> list[int]:
         elif num == ",":
             res.append(int(temp))
             temp = ""
-        else:
-            continue
 
     if temp:
         res.append(int(temp))
