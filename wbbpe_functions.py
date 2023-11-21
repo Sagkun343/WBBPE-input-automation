@@ -46,10 +46,6 @@ def is_less_than_equals_value(numbers: list[int], threshold: int) -> tuple:
 
 
 def csv_to_list_of_integers(csv: str) -> list[int]:
-    """
-
-    :rtype: object
-    """
     res = []
     temp = str()
     num_set = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
